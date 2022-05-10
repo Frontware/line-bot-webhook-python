@@ -63,6 +63,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+    app.logger.info("event: " + str(event))
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=str(event))
