@@ -27,9 +27,7 @@ $ python app_with_handler.py
 
 ### heruku button
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kpofw
-/
-line-bot-sdk-python)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kpofw/line-bot-sdk-python)
 
 then set Webhook URL: `https://{YOUR_APP}.herokuapp.com/callback`
 
