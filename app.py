@@ -67,6 +67,11 @@ def callback():
             continue
         
         app.logger.info(event)
+        await line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(event))
+        )
+
 
     return 'OK'
 
