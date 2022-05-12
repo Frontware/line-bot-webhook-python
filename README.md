@@ -1,26 +1,21 @@
-# flask echo - LINE Messaging API
+# LINE bot webhook - LINE Messaging API
 
-Sample echo-bot using [Flask](http://flask.pocoo.org/)
+webhook for LINE bot, when bot join the group will 
 
 ## Getting started local env
 
 ```
 $ export LINE_CHANNEL_SECRET=YOUR_LINE_CHANNEL_SECRET
 $ export LINE_CHANNEL_ACCESS_TOKEN=YOUR_LINE_CHANNEL_ACCESS_TOKEN
+$ export ODOO_GROUP_BOT_UPDATE_URL=link to odoo function url
 
 $ pip install -r requirements.txt
 ```
 
-Run WebhookParser sample
+Run webhook
 
 ```
 $ python app.py
-```
-
-Run WebhookHandler sample
-
-```
-$ python app_with_handler.py
 ```
 
 ## Getting started with Heroku

@@ -1,8 +1,8 @@
 {
-    "name": "flask echo: LINE Messaging API",
-    "description": "This is a sample application for the LINE Messaging API",
+    "name": "LINE bot webhook: LINE Messaging API",
+    "description": "application for the LINE Messaging API webhook",
     "keywords": ["chatbot", "line", "python"],
-    "repository": "https://github.com/krrrr38/line-bot-sdk-python",
+    "repository": "https://github.com/kpofw/line-bot-sdk-python",
     "env": {
         "LINE_CHANNEL_ACCESS_TOKEN": {
             "description": "LINE bot Channel access token from the Channel Console",

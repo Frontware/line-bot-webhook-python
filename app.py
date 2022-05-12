@@ -14,8 +14,10 @@
 
 from __future__ import unicode_literals
 
+import json
 import os
 import sys
+import requests
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
@@ -34,11 +36,15 @@ app = Flask(__name__)
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
+odoo_update_url = os.getenv('ODOO_GROUP_BOT_UPDATE_URL', None)
 if channel_secret is None:
     print('Specify LINE_CHANNEL_SECRET as environment variable.')
     sys.exit(1)
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
+    sys.exit(1)
+if odoo_update_url is None:
+    print('Specify ODOO_GROUP_BOT_UPDATE_URL as environment variable.')
     sys.exit(1)
 
 line_bot_api = LineBotApi(channel_access_token)
@@ -67,11 +73,20 @@ def callback():
         if not isinstance(event.message, TextMessage):
             continue
         
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=str(event))
-        )
-
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=str(event))
+        # )
+        dt = json.loads(str(event))
+        app.logger.info(dt)
+        if dt.get('type') == 'join' and dt.get('source',{}).get('groupId', False):
+           # get group name 
+           r = requests.get(url='https://api.line.me/v2/bot/group/%s/summary' % dt.get('source',{}).get('groupId', False),
+                        headers={'Authorization':'Bearer %s' % channel_access_token})
+           if r and r.json().get('groupName'):
+              
+              dt['groupName'] = r.json().get('groupName')
+              r = requests.post(url=odoo_update_url,json=dt)
 
     return 'OK'
 
@@ -84,4 +99,4 @@ if __name__ == "__main__":
     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
     options = arg_parser.parse_args()
 
-    app.run(debug=options.debug, port=options.port)
+    app.run(host='0.0.0.0',debug=options.debug, port=options.port)
